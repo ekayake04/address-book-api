@@ -38,7 +38,7 @@ Requires Python 3.10+.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/address-book-api.git
+git clone https://github.com/ekayake04/address-book-api.git
 cd address-book-api
 
 # 2. Create and activate a virtual environment
