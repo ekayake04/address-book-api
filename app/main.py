@@ -1,10 +1,11 @@
 """FastAPI application entry point."""
 
 import logging
+import time
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 from app.database import Base, engine
 from app.logging_config import setup_logging
@@ -30,6 +31,23 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(addresses.router)
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Log method, path, status code and duration of every request."""
+    start = time.perf_counter()
+    try:
+        response = await call_next(request)
+    except Exception:
+        logger.exception("%s %s failed", request.method, request.url.path)
+        raise
+    duration_ms = (time.perf_counter() - start) * 1000
+    logger.info(
+        "%s %s -> %d (%.1f ms)",
+        request.method, request.url.path, response.status_code, duration_ms,
+    )
+    return response
 
 
 @app.get("/health", tags=["health"])

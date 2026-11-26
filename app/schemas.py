@@ -14,7 +14,7 @@ Longitude = Annotated[float, Field(ge=-180, le=180, description="Longitude in de
 class AddressBase(BaseModel):
     """Fields shared by create and read schemas."""
 
-    name: Annotated[NonEmptyStr, Field(max_length=100, examples=["FC Espuma HQ"])]
+    name: Annotated[NonEmptyStr, Field(max_length=100, examples=["Head Office"])]
     street: Annotated[NonEmptyStr, Field(max_length=200, examples=["Grand-Place 1"])]
     city: Annotated[NonEmptyStr, Field(max_length=100, examples=["Brussels"])]
     postal_code: Annotated[NonEmptyStr, Field(max_length=20, examples=["1000"])]
